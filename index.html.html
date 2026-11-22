@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBox – Học tập hiệu quả, cân bằng mỗi ngày!</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Caveat cho chữ viết tay -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        hand: ['"Caveat"', 'cursive'],
+                    },
+                    colors: {
+                        cream: '#FAF8F5',
+                        warmGray: '#F2EFE9',
+                        kraft: '#B08968',
+                        honey: '#E6B86A',
+                        navy: '#1D3557',
+                        pastelPink: '#F4ACB7',
+                        darkText: '#2B2623',
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(43, 38, 35, 0.08)',
+                        'card': '0 20px 45px -15px rgba(43, 38, 35, 0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #2B2623;
+            overflow-x: hidden;
+        }
+
+        /* Hiệu ứng 3D nổi cho 4 chiếc hộp ở Hero */
+        .box-3d-wrapper {
+            perspective: 1000px;
+        }
+        .box-3d {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .box-3d:hover {
+            transform: translateY(-14px) rotateX(6deg) rotateY(-4deg) scale(1.03);
+            z-index: 20;
+        }
+
+        /* Hiệu ứng chuyển đổi màu mượt mà */
+        .theme-transition {
+            transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Thanh cuộn tùy chỉnh */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D5CCC3;
+            border-radius: 99px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B08968;
+        }
+
+        /* Animation nảy nhẹ */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-kraft selection:text-white">
+
+    <!-- ==================== 1. NAVBAR ==================== -->
+    <header class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-stone-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <div class="w-10 h-10 rounded-xl bg-navy text-white flex items-center justify-center shadow-md group-hover:rotate-6 transition-transform">
+                        <i class="fa-solid fa-box-open text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-xl tracking-tight text-darkText">Study<span class="text-kraft">Box</span></span>
+                        <span class="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 -mt-1">Trạm sạc học tập</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-stone-600">
+                    <a href="#pain-points" class="hover:text-kraft transition-colors">Vấn đề & Giải pháp</a>
+                    <a href="#collection" class="hover:text-kraft transition-colors">Bộ sưu tập 4 Hộp</a>
+                    <a href="#custom-box" class="hover:text-kraft transition-colors flex items-center gap-1.5">
+                        <span>Tự Mix Hộp</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold bg-pastelPink/40 text-rose-800 rounded-full">Hot</span>
+                    </a>
+                    <a href="#reviews" class="hover:text-kraft transition-colors">Đánh giá</a>
+                </nav>
+
+                <!-- CTA & Mobile Toggle -->
+                <div class="flex items-center gap-3">
+                    <a href="#order-section" class="px-5 py-2.5 rounded-full bg-darkText text-white text-sm font-bold hover:bg-kraft transition-all shadow-sm hover:shadow-md flex items-center gap-2">
+                        <span>Đặt hàng ngay</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                    <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-xl bg-stone-100 text-darkText hover:bg-stone-200" aria-label="Menu">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-b border-stone-200 px-4 pt-2 pb-5 space-y-2">
+            <a href="#pain-points" class="block px-4 py-2.5 rounded-xl font-semibold text-stone-700 hover:bg-warmGray">Vấn đề & Giải pháp</a>
+            <a href="#collection" class="block px-4 py-2.5 rounded-xl font-semibold text-stone-700 hover:bg-warmGray">Bộ sưu tập 4 Hộp</a>
+            <a href="#custom-box" class="block px-4 py-2.5 rounded-xl font-semibold text-stone-700 hover:bg-warmGray">Tự Mix Hộp (Hot)</a>
+            <a href="#reviews" class="block px-4 py-2.5 rounded-xl font-semibold text-stone-700 hover:bg-warmGray">Đánh giá cộng đồng</a>
+        </div>
+    </header>
+
+    <!-- ==================== 2. HERO SECTION ==================== -->
+    <section class="relative pt-10 pb-20 lg:pt-16 lg:pb-28 overflow-hidden">
+        <!-- Decorative warm blobs -->
+        <div class="absolute top-10 left-10 w-72 h-72 bg-honey/20 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-pastelPink/25 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="lg:col-span-6 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-warmGray border border-stone-200/80 text-xs font-bold text-stone-700">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                        <span>Phiên bản mùa thi 2026 • Freeship toàn quốc</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-[54px] font-extrabold text-darkText leading-[1.15] tracking-tight">
+                        StudyBox – <span class="text-transparent bg-clip-text bg-gradient-to-r from-kraft via-amber-700 to-navy">Học tập hiệu quả</span>, cân bằng mỗi ngày!
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-stone-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        Hơn cả một hộp quà văn phòng phẩm – là bộ giải pháp trọn gói giúp bạn vào guồng tập trung sâu, tiếp năng lượng tức thì và xoa dịu căng thẳng mùa thi.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#collection" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-navy text-white font-bold text-base hover:bg-navy/90 transition-all shadow-lg shadow-navy/20 flex items-center justify-center gap-2.5">
+                            <i class="fa-solid fa-sparkles"></i>
+                            <span>Khám phá hộp của bạn</span>
+                        </a>
+                        <a href="#custom-box" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white text-darkText border-2 border-stone-200 font-bold text-base hover:border-kraft hover:text-kraft transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-kraft"></i>
+                            <span>Tự Mix Hộp Riêng</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust badges -->
+                    <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs font-semibold text-stone-500">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                            <span>Tặng kèm thiệp viết tay</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                            <span>Đồ ăn vặt chuẩn VSATTP</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                            <span>4.9/5 từ 2.500+ GenZ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual: 4 Hộp StudyBox 3D xếp trên mặt bàn gỗ sáng -->
+                <div class="lg:col-span-6">
+                    <div class="relative bg-gradient-to-b from-[#EFE6D8] to-[#E2D3BC] p-6 sm:p-8 rounded-[32px] border border-amber-900/10 shadow-card">
+                        <div class="flex items-center justify-between mb-5">
+                            <span class="font-hand text-2xl text-stone-700 font-bold">✨ Chọn chế độ học tập của bạn hôm nay:</span>
+                            <span class="text-xs font-semibold bg-white/80 px-3 py-1 rounded-full text-stone-600">Di chuột để xem</span>
+                        </div>
+
+                        <!-- Grid 4 Hộp 3D -->
+                        <div class="grid grid-cols-2 gap-4 sm:gap-5 box-3d-wrapper">
+                            <!-- Box 1: Focus Box -->
+                            <div onclick="selectBoxAndScroll('focus')" class="box-3d cursor-pointer rounded-2xl bg-[#B08968] text-white p-4 sm:p-5 shadow-lg relative overflow-hidden border-b-8 border-[#8C6849]">
+                                <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/10"></div>
+                                <div class="flex justify-between items-start mb-3">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-black/20 text-[10px] font-bold uppercase tracking-wider">Kỷ luật</span>
+                                    <i class="fa-solid fa-hourglass-half text-xl text-amber-100"></i>
+                                </div>
+                                <h3 class="font-extrabold text-base sm:text-lg leading-tight">STUDY BOX<br>FOCUSED</h3>
+                                <p class="text-xs text-amber-100/90 mt-1.5">Đồng hồ cát & Pomodoro</p>
+                                <div class="mt-3 pt-2.5 border-t border-white/20 flex justify-between items-center text-xs font-bold">
+                                    <span>189.000đ</span>
+                                    <span class="underline">Xem hộp →</span>
+                                </div>
+                            </div>
+
+                            <!-- Box 2: Energy & Boost -->
+                            <div onclick="selectBoxAndScroll('energy')" class="box-3d cursor-pointer rounded-2xl bg-[#F3DFB9] text-darkText p-4 sm:p-5 shadow-lg relative overflow-hidden border-b-8 border-[#D9BC86]">
+                                <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-amber-500/10"></div>
+                                <div class="flex justify-between items-start mb-3">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-amber-900/10 text-amber-900 text-[10px] font-bold uppercase tracking-wider">Năng lượng</span>
+                                    <i class="fa-solid fa-bolt text-xl text-amber-600"></i>
+                                </div>
+                                <h3 class="font-extrabold text-base sm:text-lg leading-tight">STUDY BOX<br>ENERGY BOOST</h3>
+                                <p class="text-xs text-stone-600 mt-1.5">Cacao, trà & bình giữ nhiệt</p>
+                                <div class="mt-3 pt-2.5 border-t border-amber-900/15 flex justify-between items-center text-xs font-bold">
+                                    <span>219.000đ</span>
+                                    <span class="underline text-amber-800">Xem hộp →</span>
+                                </div>
+                            </div>
+
+                            <!-- Box 3: Exam Prep -->
+                            <div onclick="selectBoxAndScroll('exam')" class="box-3d cursor-pointer rounded-2xl bg-[#1D3557] text-white p-4 sm:p-5 shadow-lg relative overflow-hidden border-b-8 border-[#112138]">
+                                <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-sky-400/10"></div>
+                                <div class="flex justify-between items-start mb-3">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-white/15 text-sky-200 text-[10px] font-bold uppercase tracking-wider">Bứt tốc</span>
+                                    <i class="fa-solid fa-rocket text-xl text-sky-300"></i>
+                                </div>
+                                <h3 class="font-extrabold text-base sm:text-lg leading-tight">STUDY BOX<br>EXAM READY</h3>
+                                <p class="text-xs text-sky-100/80 mt-1.5">Flashcard & lịch đếm ngược</p>
+                                <div class="mt-3 pt-2.5 border-t border-white/15 flex justify-between items-center text-xs font-bold">
+                                    <span>199.000đ</span>
+                                    <span class="underline text-sky-200">Xem hộp →</span>
+                                </div>
+                            </div>
+
+                            <!-- Box 4: Chill & Relax -->
+                            <div onclick="selectBoxAndScroll('chill')" class="box-3d cursor-pointer rounded-2xl bg-[#F7CFD6] text-darkText p-4 sm:p-5 shadow-lg relative overflow-hidden border-b-8 border-[#DFA6B1]">
+                                <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/30"></div>
+                                <div class="flex justify-between items-start mb-3">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-rose-900/10 text-rose-900 text-[10px] font-bold uppercase tracking-wider">Chữa lành</span>
+                                    <i class="fa-solid fa-spa text-xl text-rose-500"></i>
+                                </div>
+                                <h3 class="font-extrabold text-base sm:text-lg leading-tight">STUDY BOX<br>CHILL & RELAX</h3>
+                                <p class="text-xs text-stone-700 mt-1.5">Trà hoa cúc & squishy</p>
+                                <div class="mt-3 pt-2.5 border-t border-rose-900/15 flex justify-between items-center text-xs font-bold">
+                                    <span>209.000đ</span>
+                                    <span class="underline text-rose-800">Xem hộp →</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wooden desk edge visual -->
+                        <div class="mt-5 text-center">
+                            <span class="inline-block text-xs font-medium text-stone-600 bg-white/60 px-4 py-1.5 rounded-full">
+                                🎁 Bấm trực tiếp vào từng hộp để mở nắp khám phá bên trong
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. NỖI ĐAU & GIẢI PHÁP ==================== -->
+    <section id="pain-points" class="py-16 lg:py-24 bg-warmGray/60 border-y border-stone-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-kraft">Thấu hiểu người học</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-darkText mt-2">Bạn đang gặp “rào cản” nào trên bàn học?</h2>
+                <p class="text-stone-600 mt-3">Chọn đúng vấn đề bạn đang gặp phải để StudyBox gợi ý trợ thủ đắc lực nhất.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-3xl p-7 shadow-soft border border-stone-100 hover:border-kraft/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100/80 text-kraft flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <span class="text-xs font-bold text-stone-400 uppercase">Tình huống 01</span>
+                        <h3 class="text-xl font-bold text-darkText mt-1 mb-3">“Ngồi vào bàn 5 phút lại cầm điện thoại lướt mạng?”</h3>
+                        <p class="text-sm text-stone-600 leading-relaxed mb-6">
+                            Thiếu công cụ quản lý thời gian trực quan khiến bạn dễ xao nhãng và trì hoãn deadline liên tục.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-stone-100">
+                        <p class="text-xs font-semibold text-stone-500 mb-2.5">Giải pháp đề xuất:</p>
+                        <button onclick="selectBoxAndScroll('focus')" class="w-full py-3 px-4 rounded-xl bg-[#B08968] text-white font-bold text-sm hover:opacity-90 transition flex items-center justify-between">
+                            <span>Khám phá Focus Box</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-3xl p-7 shadow-soft border border-stone-100 hover:border-honey transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-yellow-100 text-amber-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-battery-quarter"></i>
+                        </div>
+                        <span class="text-xs font-bold text-stone-400 uppercase">Tình huống 02</span>
+                        <h3 class="text-xl font-bold text-darkText mt-1 mb-3">“Học ca tối tụt năng lượng, buồn ngủ và đói bụng?”</h3>
+                        <p class="text-sm text-stone-600 leading-relaxed mb-6">
+                            Não bộ cần được tiếp thêm đường tự nhiên và đồ uống ấm nóng lành mạnh thay vì nước tăng lực.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-stone-100">
+                        <p class="text-xs font-semibold text-stone-500 mb-2.5">Giải pháp đề xuất:</p>
+                        <button onclick="selectBoxAndScroll('energy')" class="w-full py-3 px-4 rounded-xl bg-[#E6B86A] text-darkText font-bold text-sm hover:opacity-90 transition flex items-center justify-between">
+                            <span>Khám phá Energy & Boost Box</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-3xl p-7 shadow-soft border border-stone-100 hover:border-navy/40 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-500 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <span class="text-xs font-bold text-stone-400 uppercase">Tình huống 03</span>
+                        <h3 class="text-xl font-bold text-darkText mt-1 mb-3">“Sát ngày thi kiến thức quá tải, áp lực & stress?”</h3>
+                        <p class="text-sm text-stone-600 leading-relaxed mb-6">
+                            Bạn cần hệ thống hóa kiến thức bằng flashcard gọn nhẹ, đồng thời có khoảng nghỉ thư giãn đầu óc.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-stone-100 space-y-2">
+                        <p class="text-xs font-semibold text-stone-500 mb-1">Giải pháp đề xuất:</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="selectBoxAndScroll('exam')" class="py-2.5 px-3 rounded-xl bg-[#1D3557] text-white font-bold text-xs hover:opacity-90 transition text-center">
+                                Exam Prep Box
+                            </button>
+                            <button onclick="selectBoxAndScroll('chill')" class="py-2.5 px-3 rounded-xl bg-[#F4ACB7] text-darkText font-bold text-xs hover:opacity-90 transition text-center">
+                                Chill & Relax
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. KHÁM PHÁ BỘ SƯU TẬP 4 CHIẾC HỘP ==================== -->
+    <section id="collection" class="py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-kraft">What's inside the box?</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-darkText mt-2">Khám phá Bộ Sưu Tập 4 Chiếc Hộp</h2>
+                <p class="text-stone-600 mt-3">Chuyển đổi giữa các tab bên dưới để mở nắp và xem chi tiết từng món đồ bên trong.</p>
+            </div>
+
+            <!-- 4 Tabs Navigation -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10" id="box-tabs">
+                <button onclick="renderBoxShowcase('focus')" data-box="focus" class="box-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
+                    <span class="w-3 h-3 rounded-full bg-[#B08968]"></span>
+                    <span>Focus Box</span>
+                </button>
+                <button onclick="renderBoxShowcase('energy')" data-box="energy" class="box-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
+                    <span class="w-3 h-3 rounded-full bg-[#E6B86A]"></span>
+                    <span>Energy & Boost Box</span>
+                </button>
+                <button onclick="renderBoxShowcase('exam')" data-box="exam" class="box-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
+                    <span class="w-3 h-3 rounded-full bg-[#1D3557]"></span>
+                    <span>Exam Prep Box</span>
+                </button>
+                <button onclick="renderBoxShowcase('chill')" data-box="chill" class="box-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
+                    <span class="w-3 h-3 rounded-full bg-[#F4ACB7]"></span>
+                    <span>Chill & Relax Box</span>
+                </button>
+            </div>
+
+            <!-- Dynamic Showcase Container -->
+            <div id="showcase-card" class="theme-transition rounded-[36px] p-6 sm:p-10 lg:p-12 shadow-card border border-stone-200/70">
+                <!-- Content injected dynamically by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. TỰ MIX HỘP CỦA RIÊNG BẠN ==================== -->
+    <section id="custom-box" class="py-16 lg:py-24 bg-warmGray/70 border-y border-stone-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="inline-block px-3 py-1 rounded-full bg-pastelPink/40 text-rose-900 text-xs font-extrabold uppercase tracking-wider mb-2">Cá nhân hóa 100%</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-darkText">Tự Mix Hộp StudyBox Của Riêng Bạn</h2>
+                <p class="text-stone-600 mt-3">Tự tay chọn màu vỏ hộp yêu thích và nhặt tối đa <strong>5 món đồ</strong> phù hợp nhất với nhu cầu học tập hoặc làm quà tặng bạn bè.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- Left: Step 1 & Step 2 Controls -->
+                <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 shadow-soft border border-stone-100 space-y-8">
+                    <!-- Step 1: Choose Box Color -->
+                    <div>
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <span class="w-7 h-7 rounded-full bg-darkText text-white text-xs font-bold flex items-center justify-center">1</span>
+                            <h3 class="text-lg font-bold text-darkText">Chọn màu vỏ hộp của bạn</h3>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="custom-box-colors">
+                            <button type="button" onclick="selectCustomColor('Nâu Kraft', '#B08968', '#FFFFFF')" class="custom-color-btn p-3 rounded-2xl border-2 border-darkText bg-[#B08968]/15 text-left transition-all">
+                                <span class="block w-8 h-8 rounded-xl bg-[#B08968] mb-2 shadow-inner"></span>
+                                <span class="block text-xs font-bold text-darkText">Nâu Kraft</span>
+                                <span class="text-[10px] text-stone-500">Tối giản</span>
+                            </button>
+                            <button type="button" onclick="selectCustomColor('Kem Ấm', '#E6B86A', '#2B2623')" class="custom-color-btn p-3 rounded-2xl border-2 border-stone-200 hover:border-stone-400 text-left transition-all">
+                                <span class="block w-8 h-8 rounded-xl bg-[#E6B86A] mb-2 shadow-inner"></span>
+                                <span class="block text-xs font-bold text-darkText">Kem Ấm</span>
+                                <span class="text-[10px] text-stone-500">Năng động</span>
+                            </button>
+                            <button type="button" onclick="selectCustomColor('Xanh Navy', '#1D3557', '#FFFFFF')" class="custom-color-btn p-3 rounded-2xl border-2 border-stone-200 hover:border-stone-400 text-left transition-all">
+                                <span class="block w-8 h-8 rounded-xl bg-[#1D3557] mb-2 shadow-inner"></span>
+                                <span class="block text-xs font-bold text-darkText">Xanh Navy</span>
+                                <span class="text-[10px] text-stone-500">Chuyên nghiệp</span>
+                            </button>
+                            <button type="button" onclick="selectCustomColor('Hồng Pastel', '#F4ACB7', '#2B2623')" class="custom-color-btn p-3 rounded-2xl border-2 border-stone-200 hover:border-stone-400 text-left transition-all">
+                                <span class="block w-8 h-8 rounded-xl bg-[#F4ACB7] mb-2 shadow-inner"></span>
+                                <span class="block text-xs font-bold text-darkText">Hồng Pastel</span>
+                                <span class="text-[10px] text-stone-500">Dịu nhẹ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Pick up to 5 items -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-full bg-darkText text-white text-xs font-bold flex items-center justify-center">2</span>
+                                <h3 class="text-lg font-bold text-darkText">Chọn tối đa 5 món đồ bên trong</h3>
+                            </div>
+                            <span id="custom-count-badge" class="px-3 py-1 rounded-full bg-stone-100 text-xs font-bold text-stone-700">Đã chọn: 0/5</span>
+                        </div>
+
+                        <div id="custom-items-grid" class="grid sm:grid-cols-2 gap-3 max-h-[420px] overflow-y-auto pr-1">
+                            <!-- Items injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Live Box Preview & Summary -->
+                <div class="lg:col-span-5 sticky top-24">
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-stone-200/80">
+                        <h3 class="text-lg font-extrabold text-darkText mb-4 flex items-center justify-between">
+                            <span>Xem trước hộp của bạn</span>
+                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">+ Thiệp miễn phí</span>
+                        </h3>
+
+                        <!-- Visual Box Representation -->
+                        <div id="preview-box-visual" class="rounded-2xl p-6 transition-all duration-300 border-b-8 shadow-inner min-h-[230px] flex flex-col justify-between" style="background-color: #B08968; border-color: #8A674A; color: #FFFFFF;">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-extrabold uppercase tracking-widest opacity-85">CUSTOM STUDYBOX</span>
+                                <span id="preview-color-label" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-black/20">Vỏ Nâu Kraft</span>
+                            </div>
+
+                            <!-- Selected Slots Visual -->
+                            <div id="preview-slots" class="grid grid-cols-5 gap-2 my-5">
+                                <!-- 5 slots rendered by JS -->
+                            </div>
+
+                            <div class="text-xs opacity-90 flex justify-between items-center">
+                                <span>Giấy rơm lót hộp êm ái</span>
+                                <span id="preview-slot-text" class="font-bold">Còn trống 5 ô</span>
+                            </div>
+                        </div>
+
+                        <!-- Selected Items List -->
+                        <div class="mt-5">
+                            <p class="text-xs font-bold uppercase text-stone-400 mb-2">Danh sách vật phẩm đã chọn:</p>
+                            <ul id="custom-selected-list" class="space-y-1.5 text-sm text-stone-700 min-h-[60px]">
+                                <li class="text-stone-400 italic text-xs">Chưa có món đồ nào được chọn. Hãy tích chọn bên trái nhé!</li>
+                            </ul>
+                        </div>
+
+                        <!-- Total Price & Action -->
+                        <div class="mt-6 pt-5 border-t border-stone-100">
+                            <div class="flex justify-between items-end mb-4">
+                                <div>
+                                    <span class="block text-xs text-stone-500">Tổng chi phí dự kiến (gồm vỏ hộp)</span>
+                                    <span id="custom-total-price" class="text-2xl font-extrabold text-darkText">49.000đ</span>
+                                </div>
+                                <span class="text-xs text-stone-400">Vỏ hộp: 49k + món đồ</span>
+                            </div>
+
+                            <button type="button" onclick="orderCustomBox()" class="w-full py-4 rounded-2xl bg-darkText text-white font-bold text-sm hover:bg-kraft transition-all shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                                <span>Đặt hộp tự Mix này</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. ĐÁNH GIÁ TỪ CỘNG ĐỒNG ==================== -->
+    <section id="reviews" class="py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-kraft">Góc học tập thực tế</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-darkText mt-2">Hơn 2.500+ Học sinh, Sinh viên tin chọn</h2>
+                <p class="text-stone-600 mt-3">Cảm nhận chân thực từ những bạn trẻ đã nâng cấp bàn học cùng StudyBox.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Review 1 -->
+                <div class="bg-white rounded-3xl p-7 shadow-soft border border-stone-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-amber-400 text-sm gap-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-[#B08968]/15 text-[#8A674A] text-[11px] font-bold">Đã mua Focus Box</span>
+                        </div>
+                        <p class="text-sm text-stone-700 leading-relaxed italic">
+                            “Mình cực thích chiếc đồng hồ cát bằng gỗ trong Focus Box! Mỗi lần lật đồng hồ là tự nhắc bản thân không chạm vào điện thoại trong 25 phút. Giấy checklist dày dặn, bút highlight màu pastel dịu mắt lắm.”
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-6 pt-4 border-t border-stone-100">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-sm">MA</div>
+                        <div>
+                            <h4 class="text-sm font-bold text-darkText">Nguyễn Minh Anh</h4>
+                            <p class="text-xs text-stone-500">Sinh viên năm 2 – ĐH Kinh Tế Quốc Dân</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white rounded-3xl p-7 shadow-soft border border-stone-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-amber-400 text-sm gap-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-[#1D3557]/10 text-[#1D3557] text-[11px] font-bold">Đã mua Exam Prep Box</span>
+                        </div>
+                        <p class="text-sm text-stone-700 leading-relaxed italic">
+                            “Giai đoạn ôn thi đại học mình đặt hẳn Combo Exam Prep + Energy Boost. Lịch đếm ngược để trên bàn tạo động lực cực lớn, lúc nào mệt thì pha gói cacao vào bình tím pastel uống ấm bụng hẳn.”
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-6 pt-4 border-t border-stone-100">
+                        <div class="w-10 h-10 rounded-full bg-sky-100 text-navy font-bold flex items-center justify-center text-sm">QH</div>
+                        <div>
+                            <h4 class="text-sm font-bold text-darkText">Trần Quốc Huy</h4>
+                            <p class="text-xs text-stone-500">Học sinh lớp 12 – THPT Chuyên</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white rounded-3xl p-7 shadow-soft border border-stone-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-amber-400 text-sm gap-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-[#F4ACB7]/30 text-rose-900 text-[11px] font-bold">Đã mua Chill & Relax</span>
+                        </div>
+                        <p class="text-sm text-stone-700 leading-relaxed italic">
+                            “Mình mua Chill & Relax Box tặng sinh nhật bạn thân, bạn ấy mở hộp ra mà khen nức nở vì hộp hồng siêu xinh, túi thơm hoa khô thơm dịu cả góc bàn, bé squishy bóp giải tỏa stress cực đã.”
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-6 pt-4 border-t border-stone-100">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-800 font-bold flex items-center justify-center text-sm">TL</div>
+                        <div>
+                            <h4 class="text-sm font-bold text-darkText">Lê Thảo Linh</h4>
+                            <p class="text-xs text-stone-500">Sinh viên năm 1 – ĐH Ngoại Thương</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. COMBO ƯU ĐÃI & FORM ĐẶT HÀNG NHANH ==================== -->
+    <section id="order-section" class="py-16 lg:py-24 bg-gradient-to-b from-warmGray to-[#EFE8DC] border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 items-start">
+                
+                <!-- Left: Combo Deals -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold uppercase tracking-wider mb-2">Ưu đãi đặc biệt</span>
+                        <h2 class="text-3xl font-extrabold text-darkText">Combo Tiết Kiệm 15% + Freeship</h2>
+                        <p class="text-stone-600 text-sm mt-2">Kết hợp 2 chiếc hộp để nhân đôi hiệu suất học tập và cân bằng cảm xúc mỗi ngày.</p>
+                    </div>
+
+                    <!-- Combo 1 -->
+                    <div class="bg-white rounded-2xl p-5 shadow-soft border border-stone-100 hover:border-kraft transition-all">
+                        <div class="flex justify-between items-start gap-3">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase text-kraft">Best Seller • Giảm 15%</span>
+                                <h3 class="font-bold text-base text-darkText mt-0.5">Combo Bứt Phá: Focus + Energy Boost</h3>
+                                <p class="text-xs text-stone-500 mt-1">Tập trung sâu với đồng hồ cát & tiếp năng lượng cacao, bình giữ nhiệt.</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="block text-xs line-through text-stone-400">408.000đ</span>
+                                <span class="font-extrabold text-lg text-navy">345.000đ</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="selectPresetOrder('Combo Bứt Phá: Focus Box + Energy & Boost Box (345.000đ - Freeship)')" class="mt-4 w-full py-2.5 rounded-xl bg-stone-100 hover:bg-navy hover:text-white text-darkText font-bold text-xs transition-colors">
+                            Chọn Combo này
+                        </button>
+                    </div>
+
+                    <!-- Combo 2 -->
+                    <div class="bg-white rounded-2xl p-5 shadow-soft border border-stone-100 hover:border-pastelPink transition-all">
+                        <div class="flex justify-between items-start gap-3">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase text-rose-600">Mùa Thi Cân Bằng • Giảm 15%</span>
+                                <h3 class="font-bold text-base text-darkText mt-0.5">Combo Về Đích: Exam Prep + Chill & Relax</h3>
+                                <p class="text-xs text-stone-500 mt-1">Ôn thi hiệu quả với flashcard và thư giãn nhẹ nhàng cùng trà hoa cúc.</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="block text-xs line-through text-stone-400">408.000đ</span>
+                                <span class="font-extrabold text-lg text-navy">345.000đ</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="selectPresetOrder('Combo Về Đích: Exam Prep Box + Chill & Relax Box (345.000đ - Freeship)')" class="mt-4 w-full py-2.5 rounded-xl bg-stone-100 hover:bg-navy hover:text-white text-darkText font-bold text-xs transition-colors">
+                            Chọn Combo này
+                        </button>
+                    </div>
+
+                    <!-- Assurance note -->
+                    <div class="bg-white/70 rounded-2xl p-4 flex items-center gap-3 text-xs text-stone-600">
+                        <i class="fa-solid fa-shield-heart text-2xl text-kraft"></i>
+                        <span><strong>Cam kết hài lòng:</strong> Kiểm tra hàng trước khi thanh toán. Hỗ trợ đổi trả miễn phí trong 7 ngày nếu hộp móp méo do vận chuyển.</span>
+                    </div>
+                </div>
+
+                <!-- Right: Quick Order Form -->
+                <div class="lg:col-span-7">
+                    <div class="bg-white rounded-[32px] p-6 sm:p-10 shadow-card border border-stone-100">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-extrabold text-darkText">Đặt hàng nhanh StudyBox</h3>
+                            <p class="text-sm text-stone-500 mt-1">Không cần tạo tài khoản. Điền thông tin bên dưới, tụi mình sẽ gói hàng và gửi đi trong 24h!</p>
+                        </div>
+
+                        <form id="quick-order-form" class="space-y-4">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="customer-name" class="block text-xs font-bold text-stone-700 mb-1.5">Họ và tên người nhận *</label>
+                                    <input type="text" id="customer-name" required placeholder="VD: Nguyễn Minh Anh" class="w-full px-4 py-3 rounded-xl bg-cream border border-stone-200 text-sm focus:outline-none focus:border-kraft focus:bg-white transition">
+                                </div>
+                                <div>
+                                    <label for="customer-phone" class="block text-xs font-bold text-stone-700 mb-1.5">Số điện thoại liên hệ *</label>
+                                    <input type="tel" id="customer-phone" required placeholder="VD: 0912 345 678" class="w-full px-4 py-3 rounded-xl bg-cream border border-stone-200 text-sm focus:outline-none focus:border-kraft focus:bg-white transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="customer-address" class="block text-xs font-bold text-stone-700 mb-1.5">Địa chỉ nhận hàng chi tiết *</label>
+                                <input type="text" id="customer-address" required placeholder="Số nhà, tên đường, Phường/Xã, Quận/Huyện, Tỉnh/TP" class="w-full px-4 py-3 rounded-xl bg-cream border border-stone-200 text-sm focus:outline-none focus:border-kraft focus:bg-white transition">
+                            </div>
+
+                            <div>
+                                <label for="order-product" class="block text-xs font-bold text-stone-700 mb-1.5">Sản phẩm / Combo bạn chọn *</label>
+                                <select id="order-product" class="w-full px-4 py-3 rounded-xl bg-cream border border-stone-200 text-sm font-semibold text-darkText focus:outline-none focus:border-kraft focus:bg-white transition">
+                                    <option value="Focus Box (189.000đ)">1. Focus Box – Nâu Kraft (189.000đ)</option>
+                                    <option value="Energy & Boost Box (219.000đ)">2. Energy & Boost Box – Kem Ấm (219.000đ)</option>
+                                    <option value="Exam Prep Box (199.000đ)">3. Exam Prep Box – Xanh Navy (199.000đ)</option>
+                                    <option value="Chill & Relax Box (209.000đ)">4. Chill & Relax Box – Hồng Pastel (209.000đ)</option>
+                                    <option value="Combo Bứt Phá: Focus Box + Energy & Boost Box (345.000đ - Freeship)">🔥 Combo Bứt Phá: Focus + Energy Boost (345.000đ - Giảm 15%)</option>
+                                    <option value="Combo Về Đích: Exam Prep Box + Chill & Relax Box (345.000đ - Freeship)">🔥 Combo Về Đích: Exam Prep + Chill & Relax (345.000đ - Giảm 15%)</option>
+                                    <option id="custom-option-slot" value="" hidden></option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="card-message" class="block text-xs font-bold text-stone-700 mb-1.5">
+                                    Lời nhắn viết tay trên thiệp động lực <span class="font-normal text-stone-400">(Miễn phí)</span>
+                                </label>
+                                <textarea id="card-message" rows="2" placeholder="Nhập lời chúc cho bản thân hoặc bạn bè nếu bạn mua làm quà tặng..." class="w-full px-4 py-3 rounded-xl bg-cream border border-stone-200 text-sm focus:outline-none focus:border-kraft focus:bg-white transition"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-navy text-white font-bold text-base hover:bg-navy/90 transition-all shadow-lg shadow-navy/20 flex items-center justify-center gap-2 mt-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Hoàn tất đặt hàng ngay</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 8. FOOTER ==================== -->
+    <footer class="bg-darkText text-stone-300 py-14">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 pb-10 border-b border-stone-700/70">
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-kraft text-white flex items-center justify-center">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                        <span class="font-extrabold text-xl text-white">Study<span class="text-kraft">Box</span></span>
+                    </div>
+                    <p class="text-sm text-stone-400 max-w-md leading-relaxed">
+                        StudyBox – Học tập hiệu quả, cân bằng mỗi ngày! Tụi mình tin rằng một góc bàn gọn gàng cùng những món đồ nhỏ xinh sẽ tiếp thêm nguồn cảm hứng lớn cho hành trình chinh phục tri thức của bạn.
+                    </p>
+                    <div class="flex gap-3 pt-1">
+                        <a href="#order-section" class="w-9 h-9 rounded-full bg-stone-800 hover:bg-kraft text-white flex items-center justify-center transition" aria-label="Facebook"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+                        <a href="#order-section" class="w-9 h-9 rounded-full bg-stone-800 hover:bg-kraft text-white flex items-center justify-center transition" aria-label="Instagram"><i class="fa-brands fa-instagram text-sm"></i></a>
+                        <a href="#order-section" class="w-9 h-9 rounded-full bg-stone-800 hover:bg-kraft text-white flex items-center justify-center transition" aria-label="TikTok"><i class="fa-brands fa-tiktok text-sm"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-sm uppercase tracking-wider mb-4">Bộ sưu tập</h4>
+                    <ul class="space-y-2.5 text-sm text-stone-400">
+                        <li><button onclick="selectBoxAndScroll('focus')" class="hover:text-white transition">Focus Box (Nâu Kraft)</button></li>
+                        <li><button onclick="selectBoxAndScroll('energy')" class="hover:text-white transition">Energy & Boost Box</button></li>
+                        <li><button onclick="selectBoxAndScroll('exam')" class="hover:text-white transition">Exam Prep Box (Navy)</button></li>
+                        <li><button onclick="selectBoxAndScroll('chill')" class="hover:text-white transition">Chill & Relax Box</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-sm uppercase tracking-wider mb-4">Cam kết StudyBox</h4>
+                    <ul class="space-y-2.5 text-sm text-stone-400">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-kraft"></i> Đóng gói chống sốc 3 lớp</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-kraft"></i> Bánh & trà date mới nhất</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-kraft"></i> Giao nhanh 2–3 ngày toàn quốc</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-kraft"></i> Hotline: 1900 6868</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-stone-500 gap-4">
+                <p>© 2026 StudyBox Vietnam. All rights reserved.</p>
+                <p>Thiết kế dành riêng cho cộng đồng học sinh & sinh viên Việt Nam 💛</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL XÁC NHẬN ĐẶT HÀNG ==================== -->
+    <div id="order-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-[32px] max-w-md w-full p-7 sm:p-8 text-center shadow-2xl transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-4">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-darkText">Đặt hàng thành công!</h3>
+            <p class="text-sm text-stone-600 mt-2">Cảm ơn <strong id="modal-name" class="text-darkText">bạn</strong> đã chọn StudyBox đồng hành trên bàn học.</p>
+            
+            <div class="bg-cream rounded-2xl p-4 my-5 text-left text-xs space-y-2 border border-stone-200/70">
+                <div><span class="text-stone-400">Sản phẩm:</span> <strong id="modal-product" class="text-darkText"></strong></div>
+                <div><span class="text-stone-400">Số điện thoại:</span> <strong id="modal-phone" class="text-darkText"></strong></div>
+                <div><span class="text-stone-400">Giao tới:</span> <strong id="modal-address" class="text-darkText"></strong></div>
+                <div id="modal-note-row" class="hidden"><span class="text-stone-400">Lời nhắn thiệp:</span> <em id="modal-note" class="text-kraft font-semibold"></em></div>
+            </div>
+
+            <p class="text-xs text-stone-500 mb-5">Nhân viên StudyBox sẽ nhắn tin xác nhận đơn hàng qua Zalo/SMS trong ít phút tới.</p>
+
+            <button type="button" onclick="closeOrderModal()" class="w-full py-3.5 rounded-2xl bg-navy text-white font-bold text-sm hover:bg-navy/90 transition">
+                Tuyệt vời, quay lại trang
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // 1. Dữ liệu chi tiết 4 chiếc hộp
+        const BOX_DATA = {
+            focus: {
+                id: 'focus',
+                title: 'Focus Box',
+                subtitle: 'STUDY BOX – FOCUSED',
+                tagline: 'Cần tập trung tối đa? Vào guồng cực nhanh!',
+                price: '189.000đ',
+                orderValue: 'Focus Box (189.000đ)',
+                bgClass: 'bg-[#F5EDE4]',
+                accentColor: '#B08968',
+                darkAccent: '#8A674A',
+                textColor: 'text-darkText',
+                badgeText: 'Tông Nâu Kraft • Tối giản & Kỷ luật',
+                description: 'Thiết kế dành riêng cho những phiên học sâu (Deep Work). Mọi vật phẩm đều giúp bạn ngắt kết nối với sự xao nhãng và hoàn thành từng đầu việc một cách gọn gàng.',
+                items: [
+                    { icon: 'fa-hourglass-half', name: 'Đồng hồ cát mini bằng gỗ', desc: 'Đo lường 25 phút tập trung trực quan, không cần nhìn điện thoại.' },
+                    { icon: 'fa-layer-group', name: 'Bộ thẻ phương pháp Pomodoro', desc: 'Hướng dẫn chia phiên học & nghỉ khoa học giúp não không quá tải.' },
+                    { icon: 'fa-list-check', name: 'Bảng checklist học tập', desc: 'Giấy định lượng cao, chia cột ưu tiên rõ ràng cho từng ngày.' },
+                    { icon: 'fa-note-sticky', name: 'Xấp giấy note vàng tiêu chuẩn', desc: 'Ghi chú nhanh ý tưởng hoặc công thức quan trọng dán ngay góc bàn.' },
+                    { icon: 'fa-highlighter', name: 'Bộ bút highlight màu pastel', desc: 'Mực dịu mắt, không lem qua trang sau, giúp hệ thống bài học đẹp mắt.' }
+                ]
+            },
+            energy: {
+                id: 'energy',
+                title: 'Energy & Boost Box',
+                subtitle: 'STUDY BOX – ENERGY BOOST',
+                tagline: 'Hết pin giữa giờ? Tiếp sức tức thì!',
+                price: '219.000đ',
+                orderValue: 'Energy & Boost Box (219.000đ)',
+                bgClass: 'bg-[#FBF3E4]',
+                accentColor: '#E6B86A',
+                darkAccent: '#C59646',
+                textColor: 'text-darkText',
+                badgeText: 'Tông Kem Ấm • Năng động & Tươi mới',
+                description: 'Giải cứu những buổi tối ôn bài mệt nhoài hay những tiết học chiều buồn ngủ. Nạp năng lượng lành mạnh để giữ đầu óc luôn tỉnh táo và sảng khoái.',
+                items: [
+                    { icon: 'fa-mug-hot', name: 'Gói bột cacao nguyên chất', desc: 'Hương thơm đậm đà, pha cùng nước ấm giúp kích thích sự tỉnh táo.' },
+                    { icon: 'fa-leaf', name: 'Trà thảo mộc thanh mát', desc: 'Thức uống nhẹ nhàng giúp giải nhiệt và giữ tinh thần sảng khoái.' },
+                    { icon: 'fa-cookie-bite', name: 'Bánh quy giòn & Thanh ngũ cốc', desc: 'Bổ sung năng lượng nhanh, giòn rụm ngon miệng mà không gây ngán.' },
+                    { icon: 'fa-bottle-water', name: 'Bình giữ nhiệt tím pastel mini', desc: 'Nhỏ gọn vừa vặn bàn học, giữ nóng/lạnh đồ uống suốt nhiều giờ.' },
+                    { icon: 'fa-bag-shopping', name: 'Túi vải dây rút đa năng', desc: 'Đựng bình nước, đồ ăn vặt hoặc văn phòng phẩm mang lên giảng đường.' }
+                ]
+            },
+            exam: {
+                id: 'exam',
+                title: 'Exam Prep Box',
+                subtitle: 'STUDY BOX – EXAM READY',
+                tagline: 'Sát ngày thi rồi? Tự tin bứt tốc!',
+                price: '199.000đ',
+                orderValue: 'Exam Prep Box (199.000đ)',
+                bgClass: 'bg-[#EBF0F7]',
+                accentColor: '#1D3557',
+                darkAccent: '#112138',
+                textColor: 'text-darkText',
+                badgeText: 'Tông Xanh Navy • Chuyên nghiệp & Bứt tốc',
+                description: 'Bộ vũ khí tối thượng cho giai đoạn nước rút. Giúp bạn tóm gọn kiến thức trọng tâm, kiểm soát thời gian đếm ngược và giữ vững phong độ phòng thi.',
+                items: [
+                    { icon: 'fa-clone', name: 'Xấp flashcard / giấy note ôn bài', desc: 'Ghi nhớ từ vựng, công thức siêu tốc mọi lúc mọi nơi.' },
+                    { icon: 'fa-book', name: 'Sổ tay mini xanh navy', desc: 'Bìa cứng sang trọng, tổng hợp bí kíp giải đề và lỗi sai cần tránh.' },
+                    { icon: 'fa-calendar-days', name: 'Lịch bàn đếm ngược ngày thi', desc: 'Theo dõi từng ngày còn lại để phân bổ lộ trình ôn tập hợp lý.' },
+                    { icon: 'fa-ruler', name: 'Thước kẻ hình học sắc nét', desc: 'Kẻ bảng biểu, vẽ hình chuẩn xác cho các môn tự nhiên.' },
+                    { icon: 'fa-candy-cane', name: 'Gói snack tiếp sức mùa thi', desc: 'Nạp đường nhẹ nhàng giúp não bộ duy trì tốc độ xử lý thông tin.' }
+                ]
+            },
+            chill: {
+                id: 'chill',
+                title: 'Chill & Relax Box',
+                subtitle: 'STUDY BOX – CHILL & RECHARGE',
+                tagline: 'Học căng quá thì xả hơi thôi!',
+                price: '209.000đ',
+                orderValue: 'Chill & Relax Box (209.000đ)',
+                bgClass: 'bg-[#FDF0F2]',
+                accentColor: '#F4ACB7',
+                darkAccent: '#D98A96',
+                textColor: 'text-darkText',
+                badgeText: 'Tông Hồng Pastel • Nhẹ nhàng & Chữa lành',
+                description: 'Vì nghỉ ngơi cũng là một phần của việc học hiệu quả. Chiếc hộp dịu dàng giúp bạn vỗ về cảm xúc, xua tan căng thẳng sau những giờ giải đề cân não.',
+                items: [
+                    { icon: 'fa-seedling', name: 'Trà hoa cúc dịu nhẹ', desc: 'Hương hoa tự nhiên giúp thư giãn thần kinh và ngủ ngon hơn.' },
+                    { icon: 'fa-heart', name: 'Thanh socola ngọt ngào', desc: 'Kích thích hormone hạnh phúc, xua tan mệt mỏi tức thì.' },
+                    { icon: 'fa-face-smile-beam', name: 'Thú bóp squishy giảm stress', desc: 'Mềm mại, đàn hồi cực đã tay mỗi khi bạn cảm thấy bí ý tưởng.' },
+                    { icon: 'fa-palette', name: 'Sổ lò xo hồng & Bộ chì màu mini', desc: 'Tự do vẽ vời, tô màu hoặc viết nhật ký xả stress cuối ngày.' },
+                    { icon: 'fa-spa', name: 'Túi thơm hoa khô thiên nhiên', desc: 'Tỏa hương thơm thoang thoảng dễ chịu khắp góc bàn học.' }
+                ]
+            }
+        };
+
+        // 2. Danh sách vật phẩm cho tính năng Tự Mix Hộp
+        const CUSTOM_ITEMS = [
+            { id: 'item1', name: 'Đồng hồ cát mini bằng gỗ', price: 45000, icon: '⏳', tag: 'Focus' },
+            { id: 'item2', name: 'Bộ thẻ Pomodoro & Checklist', price: 29000, icon: '📋', tag: 'Focus' },
+            { id: 'item3', name: 'Bộ 3 bút highlight pastel', price: 32000, icon: '🖍️', tag: 'Focus' },
+            { id: 'item4', name: 'Bình giữ nhiệt tím pastel mini', price: 65000, icon: '🧋', tag: 'Energy' },
+            { id: 'item5', name: 'Combo Cacao + Trà thảo mộc', price: 35000, icon: '☕', tag: 'Energy' },
+            { id: 'item6', name: 'Bánh quy & Thanh ngũ cốc', price: 28000, icon: '🍪', tag: 'Energy' },
+            { id: 'item7', name: 'Xấp Flashcard + Sổ tay Navy', price: 42000, icon: '📘', tag: 'Exam' },
+            { id: 'item8', name: 'Lịch bàn đếm ngược ngày thi', price: 38000, icon: '📅', tag: 'Exam' },
+            { id: 'item9', name: 'Thú bóp Squishy giảm stress', price: 25000, icon: '🐥', tag: 'Chill' },
+            { id: 'item10', name: 'Trà hoa cúc + Socola ngọt', price: 34000, icon: '🍫', tag: 'Chill' },
+            { id: 'item11', name: 'Sổ lò xo hồng + Chì màu mini', price: 39000, icon: '🎨', tag: 'Chill' },
+            { id: 'item12', name: 'Túi thơm hoa khô thiên nhiên', price: 26000, icon: '🌸', tag: 'Chill' }
+        ];
+
+        // State cho Custom Box
+        let customState = {
+            colorName: 'Nâu Kraft',
+            colorHex: '#B08968',
+            textColor: '#FFFFFF',
+            selectedIds: ['item1', 'item3', 'item5'] // Chọn sẵn 3 món mẫu cho sinh động
+        };
+
+        // Render khu vực Bộ sưu tập 4 hộp
+        function renderBoxShowcase(boxKey) {
+            const data = BOX_DATA[boxKey];
+            const container = document.getElementById('showcase-card');
+
+            // Cập nhật trạng thái active cho các nút Tab
+            document.querySelectorAll('.box-tab-btn').forEach(btn => {
+                if (btn.dataset.box === boxKey) {
+                    btn.classList.add('bg-darkText', 'text-white', 'scale-105');
+                    btn.classList.remove('bg-white', 'text-stone-700', 'hover:bg-stone-100');
+                } else {
+                    btn.classList.remove('bg-darkText', 'text-white', 'scale-105');
+                    btn.classList.add('bg-white', 'text-stone-700', 'hover:bg-stone-100');
+                }
+            });
+
+            // Đổi màu nền khung trưng bày
+            container.className = `theme-transition rounded-[36px] p-6 sm:p-10 lg:p-12 shadow-card border border-stone-200/70 ${data.bgClass}`;
+
+            // Tạo HTML chi tiết
+            const itemsHtml = data.items.map(item => `
+                <div class="bg-white/85 backdrop-blur-sm rounded-2xl p-4 border border-white flex items-start gap-3.5 hover:bg-white transition-all shadow-sm">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-white shadow-sm" style="background-color: ${data.accentColor};">
+                        <i class="fa-solid ${item.icon}"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-darkText">${item.name}</h4>
+                        <p class="text-xs text-stone-600 mt-0.5 leading-relaxed">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    <!-- Left: Open Box Illustration -->
+                    <div class="lg:col-span-5">
+                        <div class="rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border-b-8" style="background-color: ${data.accentColor}; border-color: ${data.darkAccent};">
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="px-3 py-1 rounded-full bg-black/20 text-xs font-bold tracking-wider uppercase">${data.subtitle}</span>
+                                <span class="text-xs font-bold bg-white text-darkText px-3 py-1 rounded-full shadow-sm">Full 5 món</span>
+                            </div>
+
+                            <!-- Open Box Visual Grid -->
+                            <div class="bg-white/15 backdrop-blur-md rounded-2xl p-4 border border-white/25 space-y-3">
+                                <div class="text-center pb-2 border-b border-white/20">
+                                    <span class="font-hand text-2xl font-bold tracking-wide">✨ Mở hộp khám phá ✨</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2.5 text-center">
+                                    ${data.items.map(i => `
+                                        <div class="bg-white/90 text-darkText rounded-xl p-2.5 shadow-sm flex flex-col items-center justify-center">
+                                            <i class="fa-solid ${i.icon} text-base mb-1" style="color: ${data.accentColor};"></i>
+                                            <span class="text-[10px] font-bold leading-tight line-clamp-2">${i.name}</span>
+                                        </div>
+                                    `).join('')}
+                                    <div class="bg-white/25 border border-dashed border-white/60 rounded-xl p-2.5 flex flex-col items-center justify-center">
+                                        <i class="fa-solid fa-envelope-open-text text-base mb-1"></i>
+                                        <span class="text-[10px] font-bold leading-tight">Thiệp viết tay</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex items-end justify-between">
+                                <div>
+                                    <span class="block text-xs opacity-85">Giá trọn bộ</span>
+                                    <span class="text-3xl font-extrabold">${data.price}</span>
+                                </div>
+                                <button onclick="selectPresetOrder('${data.orderValue}')" class="px-5 py-3 rounded-xl bg-white text-darkText font-extrabold text-sm hover:scale-105 transition-transform shadow-md">
+                                    Chọn hộp này →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Details -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-white text-xs font-bold text-stone-700 shadow-sm mb-3">
+                                ${data.badgeText}
+                            </span>
+                            <h3 class="text-3xl sm:text-4xl font-extrabold text-darkText">${data.title}</h3>
+                            <p class="font-hand text-2xl font-bold text-stone-700 mt-1">“${data.tagline}”</p>
+                            <p class="text-sm sm:text-base text-stone-600 mt-3 leading-relaxed">${data.description}</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-extrabold uppercase tracking-wider text-stone-500 mb-3">Chi tiết 5 vật phẩm bên trong hộp:</h4>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                ${itemsHtml}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper: Bấm từ Hero hoặc Pain Points sẽ mở đúng tab hộp và cuộn mượt tới
+        function selectBoxAndScroll(boxKey) {
+            renderBoxShowcase(boxKey);
+            document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Helper: Chọn sản phẩm và nhảy tới form đặt hàng
+        function selectPresetOrder(orderText) {
+            const selectEl = document.getElementById('order-product');
+            // Tìm option có sẵn
+            let found = false;
+            for (let i = 0; i < selectEl.options.length; i++) {
+                if (selectEl.options[i].value === orderText) {
+                    selectEl.selectedIndex = i;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                const customSlot = document.getElementById('custom-option-slot');
+                customSlot.value = orderText;
+                customSlot.textContent = orderText;
+                customSlot.hidden = false;
+                selectEl.value = orderText;
+            }
+            document.getElementById('order-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== CUSTOM BOX BUILDER LOGIC ====================
+        function selectCustomColor(name, hex, textColor) {
+            customState.colorName = name;
+            customState.colorHex = hex;
+            customState.textColor = textColor;
+
+            // Update active border on color buttons
+            document.querySelectorAll('.custom-color-btn').forEach(btn => {
+                if (btn.innerText.includes(name)) {
+                    btn.classList.add('border-darkText', 'bg-stone-100');
+                    btn.classList.remove('border-stone-200');
+                } else {
+                    btn.classList.remove('border-darkText', 'bg-stone-100');
+                    btn.classList.add('border-stone-200');
+                }
+            });
+
+            updateCustomPreview();
+        }
+
+        function toggleCustomItem(itemId) {
+            const idx = customState.selectedIds.indexOf(itemId);
+            if (idx > -1) {
+                customState.selectedIds.splice(idx, 1);
+            } else {
+                if (customState.selectedIds.length >= 5) {
+                    showToast('Bạn chỉ có thể chọn tối đa 5 món đồ cho mỗi chiếc hộp nhé!');
+                    return;
+                }
+                customState.selectedIds.push(itemId);
+            }
+            renderCustomItemsGrid();
+            updateCustomPreview();
+        }
+
+        function renderCustomItemsGrid() {
+            const grid = document.getElementById('custom-items-grid');
+            grid.innerHTML = CUSTOM_ITEMS.map(item => {
+                const isSelected = customState.selectedIds.includes(item.id);
+                return `
+                    <div onclick="toggleCustomItem('${item.id}')" class="cursor-pointer p-3.5 rounded-2xl border-2 transition-all flex items-center justify-between gap-2 ${isSelected ? 'border-kraft bg-amber-50/60' : 'border-stone-100 hover:border-stone-300 bg-cream/40'}">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${item.icon}</span>
+                            <div>
+                                <h4 class="text-xs font-bold text-darkText leading-snug">${item.name}</h4>
+                                <span class="text-[11px] font-semibold text-stone-500">+${item.price.toLocaleString('vi-VN')}đ</span>
+                            </div>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${isSelected ? 'bg-kraft text-white' : 'bg-stone-200 text-transparent'}">
+                            <i class="fa-solid fa-check text-xs"></i>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateCustomPreview() {
+            const visualBox = document.getElementById('preview-box-visual');
+            visualBox.style.backgroundColor = customState.colorHex;
+            visualBox.style.borderColor = customState.colorHex;
+            visualBox.style.color = customState.textColor;
+
+            document.getElementById('preview-color-label').textContent = `Vỏ ${customState.colorName}`;
+            document.getElementById('custom-count-badge').textContent = `Đã chọn: ${customState.selectedIds.length}/5`;
+
+            const remaining = 5 - customState.selectedIds.length;
+            document.getElementById('preview-slot-text').textContent = remaining > 0 ? `Còn trống ${remaining} ô` : 'Hộp đã đầy ắp!';
+
+            // Render 5 visual slots
+            const slotsEl = document.getElementById('preview-slots');
+            let slotsHtml = '';
+            for (let i = 0; i < 5; i++) {
+                const itemId = customState.selectedIds[i];
+                if (itemId) {
+                    const itemObj = CUSTOM_ITEMS.find(x => x.id === itemId);
+                    slotsHtml += `
+                        <div class="aspect-square rounded-xl bg-white/95 text-darkText flex flex-col items-center justify-center p-1 shadow-sm animate-bounce" style="animation-iteration-count: 1; animation-duration: 0.4s;">
+                            <span class="text-xl">${itemObj.icon}</span>
+                        </div>
+                    `;
+                } else {
+                    slotsHtml += `
+                        <div class="aspect-square rounded-xl border-2 border-dashed border-current/30 flex items-center justify-center text-xs opacity-50">
+                            +
+                        </div>
+                    `;
+                }
+            }
+            slotsEl.innerHTML = slotsHtml;
+
+            // Update list & total price
+            const listEl = document.getElementById('custom-selected-list');
+            let total = 49000; // Giá vỏ hộp + giấy rơm + thiệp
+
+            if (customState.selectedIds.length === 0) {
+                listEl.innerHTML = `<li class="text-stone-400 italic text-xs">Chưa có món đồ nào được chọn. Hãy tích chọn bên trái nhé!</li>`;
+            } else {
+                listEl.innerHTML = customState.selectedIds.map(id => {
+                    const item = CUSTOM_ITEMS.find(x => x.id === id);
+                    total += item.price;
+                    return `
+                        <li class="flex justify-between items-center text-xs bg-cream px-3 py-1.5 rounded-lg">
+                            <span>${item.icon} ${item.name}</span>
+                            <span class="font-bold text-stone-600">${item.price.toLocaleString('vi-VN')}đ</span>
+                        </li>
+                    `;
+                }).join('');
+            }
+
+            document.getElementById('custom-total-price').textContent = `${total.toLocaleString('vi-VN')}đ`;
+        }
+
+        function orderCustomBox() {
+            if (customState.selectedIds.length === 0) {
+                showToast('Hãy chọn ít nhất 1 món đồ vào hộp trước khi đặt nhé!');
+                return;
+            }
+            let total = 49000;
+            const itemNames = customState.selectedIds.map(id => {
+                const item = CUSTOM_ITEMS.find(x => x.id === id);
+                total += item.price;
+                return item.name;
+            }).join(', ');
+
+            const summary = `Hộp Tự Mix (Vỏ ${customState.colorName}: ${itemNames}) – ${total.toLocaleString('vi-VN')}đ`;
+            selectPresetOrder(summary);
+        }
+
+        // Toast notification nhẹ nhàng thay cho alert()
+        function showToast(message) {
+            const existing = document.getElementById('toast-msg');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'toast-msg';
+            toast.className = 'fixed bottom-6 right-6 z-50 bg-darkText text-white px-5 py-3.5 rounded-2xl shadow-xl text-sm font-semibold flex items-center gap-2.5 animate-bounce';
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-honey"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3200);
+        }
+
+        // Xử lý Form đặt hàng nhanh
+        document.getElementById('quick-order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            const product = document.getElementById('order-product').value;
+            const note = document.getElementById('card-message').value.trim();
+
+            document.getElementById('modal-name').textContent = name;
+            document.getElementById('modal-phone').textContent = phone;
+            document.getElementById('modal-address').textContent = address;
+            document.getElementById('modal-product').textContent = product;
+
+            const noteRow = document.getElementById('modal-note-row');
+            if (note) {
+                document.getElementById('modal-note').textContent = `"${note}"`;
+                noteRow.classList.remove('hidden');
+            } else {
+                noteRow.classList.add('hidden');
+            }
+
+            const modal = document.getElementById('order-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        });
+
+        function closeOrderModal() {
+            const modal = document.getElementById('order-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('quick-order-form').reset();
+        }
+
+        // Toggle Mobile Menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Khởi tạo trang khi load xong
+        window.addEventListener('DOMContentLoaded', () => {
+            renderBoxShowcase('focus');
+            renderCustomItemsGrid();
+            updateCustomPreview();
+        });
+    </script>
+</body>
+</html>
